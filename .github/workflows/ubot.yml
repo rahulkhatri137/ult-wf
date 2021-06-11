@@ -19,20 +19,14 @@ jobs:
          run: |
            git config --global user.email "${GitHubMail}"
            git config --global user.name "${GitHubName}"
+           echo "https://${GitHubName}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
            sudo apt install expect -y
 
        - name: cloning repo
          continue-on-error: false
          run: |
-           expect -c " 
-           spawn git clone https://github.com/rahulkhatri137/ultroi bot
-           expect \"Username\"        
-           send \"${{ secrets.GHUSER }}\r\"
-           expect \"Password\"        
-           send \"${{ secrets.GHPASS }}\r\"
-           set timeout -5
-           catch wait result
-           interact"
+           git clone https://${GitHubName}:${{ secrets.GH_TOKEN }}@github.com/rahulkhatri137/ultroi bot
+
        - name: Running Bot
          timeout-minutes: 350
          continue-on-error: true
@@ -44,17 +38,9 @@ jobs:
        - name: Loop workflow
          continue-on-error: true
          run: |
-              git clone https://github.com/rahulkhatri137/ult-wf loop
-              cd loop
-              echo "1" >> loop.txt
-              git add loop.txt
-              git commit -m "Workflow : Loop"
-              expect -c "
-              spawn git push -f 
-              expect \"Username\"
-              send \"${{ secrets.GHUSER }}\r\"
-              expect \"Password\"
-              send \"${{ secrets.GHPASS }}\r\"
-              expect \"main -> main\"
-              set timeout -10
-              interact"
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/ult-wf loop
+          cd loop || exit 1
+          echo $(( RANDOM - ( RANDOM % RANDOM ) )) > loop.txt
+          git add loop.txt
+          git commit -m "Workflow : Loop at $(date -u +%D-%T%P)"
+          git push -q https://${{ secrets.GH_TOKEN }}@github.com/ult-wf HEAD:main

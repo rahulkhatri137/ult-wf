@@ -32,8 +32,11 @@ jobs:
          continue-on-error: true
          run: |
            cd bot
-           pip3 install -U -r requirements.txt
-           bash resources/startup/startup.sh
+           echo "${{ secrets.DPASS }}" | docker login -u rahulkhatri137 --password-stdin
+           docker container prune --force || true
+           docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile -t ubot
+           docker image ls
+           docker run --privileged --rm -i ubot
        
        - name: Loop workflow
          continue-on-error: true

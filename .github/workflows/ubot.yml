@@ -25,25 +25,13 @@ jobs:
        - name: cloning repo
          continue-on-error: false
          run: |
-           git clone https://${GitHubName}:${{ secrets.GH_TOKEN }}@github.com/rahulkhatri137/ultroi bot
+           git clone https://${GitHubName}:${{ secrets.GH_TOKEN }}@github.com/rahulkhatri137/Ultroid bot
 
        - name: Running Bot
          timeout-minutes: 350
          continue-on-error: true
          run: |
            cd bot
-           echo "${{ secrets.DPASS }}" | docker login -u rahulkhatri137 --password-stdin
-           docker container prune --force || true
-           docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile -t ubot
-           docker image ls
-           docker run --privileged --rm -i ubot
-       
-       - name: Loop workflow
-         continue-on-error: true
-         run: |
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/rahulkhatri137/ult-wf loop
-          cd loop || exit 1
-          echo $(( RANDOM - ( RANDOM % RANDOM ) )) > loop.txt
-          git add loop.txt
-          git commit -m "Workflow : Loop"
-          git push -q https://${{ secrets.GH_TOKEN }}@github.com/rahulkhatri137/ult-wf HEAD:main
+           touch .env
+           nano .env
+           echo "API_ID=" ;

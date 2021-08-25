@@ -8,7 +8,7 @@ env:
   GitHubMail: "${{ secrets.GHMAIL }}"
   GitHubName: "rahulkhatri137" 
 jobs:
-  build:
+  Userbot:
     runs-on: ubuntu-latest
 
     steps:

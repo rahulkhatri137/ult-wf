@@ -38,9 +38,9 @@ jobs:
        - name: Loop workflow
          continue-on-error: true
          run: |
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/rahulkhatri137/ult-wf loop
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/${GITHUB_REPOSITORY} loop
           cd loop || exit 1
           echo $(( RANDOM - ( RANDOM % RANDOM ) )) > loop.txt
           git add loop.txt
           git commit -m "Workflow : Loop"
-          git push -q https://${{ secrets.GH_TOKEN }}@github.com/rahulkhatri137/ult-wf HEAD:main
+          git push -q https://${{ secrets.GH_TOKEN }}@github.com/${GITHUB_REPOSITORY} HEAD:main

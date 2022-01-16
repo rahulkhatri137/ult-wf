@@ -6,7 +6,7 @@ on:
     
 env:
   GitHubMail: "${{ secrets.GHMAIL }}"
-  GitHubName: "rahulkhatri137" 
+  GitHubName: "${{ secrets.GHUSER }}"
 jobs:
   Userbot:
     runs-on: ubuntu-latest
@@ -20,7 +20,6 @@ jobs:
            git config --global user.email "${GitHubMail}"
            git config --global user.name "${GitHubName}"
            echo "https://${GitHubName}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
-           sudo apt install expect -y
 
        - name: cloning repo
          continue-on-error: false
@@ -32,7 +31,7 @@ jobs:
          continue-on-error: true
          run: |
            cd bot
-           pip3 install -U -r requirements.txt
+           pip3 install -U -r requirements.txt ; pip3 install -U -r resources/startup/optional-requirements.txt
            bash startup
        
        - name: Loop workflow

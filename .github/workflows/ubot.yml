@@ -25,7 +25,7 @@ jobs:
        - name: cloning repo
          continue-on-error: false
          run: |
-           git clone https://${GitHubName}:${{ secrets.GH_TOKEN }}@github.com/rahulkhatri137/ultroi bot
+           git clone ${{ secrets.REPO }} bot
 
        - name: Running Bot
          timeout-minutes: 350
@@ -33,7 +33,7 @@ jobs:
          run: |
            cd bot
            pip3 install -U -r requirements.txt
-           bash resources/startup/startup.sh
+           bash startup
        
        - name: Loop workflow
          continue-on-error: true
